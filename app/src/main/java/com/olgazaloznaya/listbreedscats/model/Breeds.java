@@ -3,23 +3,24 @@ package com.olgazaloznaya.listbreedscats.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Arrays;
-
 public class Breeds implements Parcelable {
 
     private String id;
-    private String image_url;
-    private String width;
-    private String height;
+    private String name;
+    private String temperament;
+    private String origin;
+    private String description;
+    private String life_span;
+    private String wikipedia_url;
 
-    private String[] breeds;
-
-    public Breeds(String id, String image_url, String width, String height, String[] breeds) {
+    public Breeds(String id, String name, String temperament, String origin, String description, String life_span, String wikipedia_url) {
         this.id = id;
-        this.image_url = image_url;
-        this.width = width;
-        this.height = height;
-        this.breeds = breeds;
+        this.name = name;
+        this.temperament = temperament;
+        this.origin = origin;
+        this.description = description;
+        this.life_span = life_span;
+        this.wikipedia_url = wikipedia_url;
     }
 
     public Breeds() {
@@ -27,10 +28,28 @@ public class Breeds implements Parcelable {
 
     protected Breeds(Parcel in) {
         id = in.readString();
-        image_url = in.readString();
-        width = in.readString();
-        height = in.readString();
-        breeds = in.createStringArray();
+        name = in.readString();
+        temperament = in.readString();
+        origin = in.readString();
+        description = in.readString();
+        life_span = in.readString();
+        wikipedia_url = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(temperament);
+        dest.writeString(origin);
+        dest.writeString(description);
+        dest.writeString(life_span);
+        dest.writeString(wikipedia_url);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Breeds> CREATOR = new Creator<Breeds>() {
@@ -45,6 +64,20 @@ public class Breeds implements Parcelable {
         }
     };
 
+    @Override
+    public String toString() {
+        return "Breeds{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", temperament='" + temperament + '\'' +
+                ", origin='" + origin + '\'' +
+                ", description='" + description + '\'' +
+                ", life_span='" + life_span + '\'' +
+                ", wikipedia_url='" + wikipedia_url + '\'' +
+                ", weight=" +
+                '}';
+    }
+
     public String getId() {
         return id;
     }
@@ -53,60 +86,51 @@ public class Breeds implements Parcelable {
         this.id = id;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getName() {
+        return name;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getWidth() {
-        return width;
+    public String getTemperament() {
+        return temperament;
     }
 
-    public void setWidth(String width) {
-        this.width = width;
+    public void setTemperament(String temperament) {
+        this.temperament = temperament;
     }
 
-    public String getHeight() {
-        return height;
+    public String getOrigin() {
+        return origin;
     }
 
-    public void setHeight(String height) {
-        this.height = height;
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
-    public String[] getBreeds() {
-        return breeds;
+    public String getDescription() {
+        return description;
     }
 
-    public void setBreeds(String[] breeds) {
-        this.breeds = breeds;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Breeds{" +
-                "id='" + id + '\'' +
-                ", image_url='" + image_url + '\'' +
-                ", width='" + width + '\'' +
-                ", height='" + height + '\'' +
-                ", breeds=" + Arrays.toString(breeds) +
-                '}';
+    public String getLife_span() {
+        return life_span;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setLife_span(String life_span) {
+        this.life_span = life_span;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(image_url);
-        dest.writeString(width);
-        dest.writeString(height);
-        dest.writeStringArray(breeds);
+    public String getWikipedia_url() {
+        return wikipedia_url;
+    }
+
+    public void setWikipedia_url(String wikipedia_url) {
+        this.wikipedia_url = wikipedia_url;
     }
 }

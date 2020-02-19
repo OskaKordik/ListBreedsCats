@@ -1,31 +1,20 @@
 package com.olgazaloznaya.listbreedscats.api.responses;
 
-public class BreedsResponse {
+import com.olgazaloznaya.listbreedscats.model.Breeds;
 
+import java.util.Arrays;
+
+public class BreedsResponse {
+    private Breeds[] breeds;
     private String id;
-    private String name;
+    private String url;
 
     @Override
     public String toString() {
         return "BreedsResponse{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                "breeds=" + Arrays.toString(breeds) +
+                ", id='" + id + '\'' +
+                ", url='" + url + '\'' +
                 '}';
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
