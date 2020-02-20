@@ -3,6 +3,7 @@ package com.olgazaloznaya.listbreedscats.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.olgazaloznaya.listbreedscats.api.responses.BreedsResponse;
 import com.olgazaloznaya.listbreedscats.api.responses.BreedsResponseList;
 import com.olgazaloznaya.listbreedscats.repositories.BreedsRepository;
 
@@ -20,7 +21,19 @@ public class BreedsViewModel extends ViewModel {
         return mBreedsRepository.getBreeds();
     }
 
+    public LiveData<List<BreedsResponse>> getBreed() {
+        return mBreedsRepository.getBreed();
+    }
+
     public void searchBreedsApi() {
         mBreedsRepository.searchBreedsApi();
+    }
+
+    public void searchBreedByID(String breedID) {
+        mBreedsRepository.searchBreedByID(breedID);
+    }
+
+    public List<BreedsResponseList> getBreedsList() {
+        return mBreedsRepository.getBreeds().getValue();
     }
 }

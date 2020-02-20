@@ -1,9 +1,6 @@
 package com.olgazaloznaya.listbreedscats.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class Breeds implements Parcelable {
+public class Breeds {
 
     private String id;
     private String name;
@@ -12,57 +9,6 @@ public class Breeds implements Parcelable {
     private String description;
     private String life_span;
     private String wikipedia_url;
-
-    public Breeds(String id, String name, String temperament, String origin, String description, String life_span, String wikipedia_url) {
-        this.id = id;
-        this.name = name;
-        this.temperament = temperament;
-        this.origin = origin;
-        this.description = description;
-        this.life_span = life_span;
-        this.wikipedia_url = wikipedia_url;
-    }
-
-    public Breeds() {
-    }
-
-    protected Breeds(Parcel in) {
-        id = in.readString();
-        name = in.readString();
-        temperament = in.readString();
-        origin = in.readString();
-        description = in.readString();
-        life_span = in.readString();
-        wikipedia_url = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(name);
-        dest.writeString(temperament);
-        dest.writeString(origin);
-        dest.writeString(description);
-        dest.writeString(life_span);
-        dest.writeString(wikipedia_url);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Breeds> CREATOR = new Creator<Breeds>() {
-        @Override
-        public Breeds createFromParcel(Parcel in) {
-            return new Breeds(in);
-        }
-
-        @Override
-        public Breeds[] newArray(int size) {
-            return new Breeds[size];
-        }
-    };
 
     @Override
     public String toString() {
