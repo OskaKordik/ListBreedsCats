@@ -21,6 +21,7 @@ android {
 
 dependencies {
     def retrofitVersion = '2.6.1'
+    def lifecycle_version = '2.2.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -29,9 +30,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    // Retrofit
+    // Retrofit & Retrofit gson converter
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-
-    // Retrofit gson converter
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    // ViewModel & LiveData
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    // implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 }
