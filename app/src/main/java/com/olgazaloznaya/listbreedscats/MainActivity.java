@@ -3,19 +3,25 @@ package com.olgazaloznaya.listbreedscats;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.widget.Toast;
 
+import com.olgazaloznaya.listbreedscats.adapters.BreedsListAdapter;
+import com.olgazaloznaya.listbreedscats.adapters.OnBreedsClickListener;
 import com.olgazaloznaya.listbreedscats.api.responses.BreedsResponseList;
 import com.olgazaloznaya.listbreedscats.viewmodels.BreedsViewModel;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnBreedsClickListener {
 
     private static final String TAG = "MainActivity";
     private BreedsViewModel mBreedsViewModel;
+    private RecyclerView mRecyclerView;
+    private BreedsListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +29,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mBreedsViewModel = new ViewModelProvider(this).get(BreedsViewModel.class);
+        mRecyclerView = findViewById(R.id.recyclerViewBreedsList);
 
+        initRecyclerView();
         subscribeObservers();
+        testRetrofitRequest();
+    }
 
-        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testRetrofitRequest();
-            }
-        });
+    private void initRecyclerView() {
+        mAdapter = new BreedsListAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void subscribeObservers() {
@@ -41,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 if(breeds != null) {
                     for (BreedsResponseList breed : breeds) {
                         Log.d(TAG, "onChanged: " + breed.getName());
+                        mAdapter.setBreedsList(breeds);
                     }
                 }
             }
@@ -49,5 +58,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void testRetrofitRequest() {
         mBreedsViewModel.searchBreedsApi();
+    }
+
+    @Override
+    public void onBreedsClick(int position) {
+        Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
     }
 }
