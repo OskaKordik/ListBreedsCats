@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.olgazaloznaya.listbreedscats.adapters.BreedsListAdapter;
 import com.olgazaloznaya.listbreedscats.adapters.OnBreedsClickListener;
@@ -21,7 +21,6 @@ import java.util.List;
 
 public class BreedListActivity extends AppCompatActivity implements OnBreedsClickListener {
 
-    private static final String TAG = "BreedListActivity";
     private BreedsViewModel mBreedsViewModel;
     private RecyclerView mRecyclerView;
     private BreedsListAdapter mAdapter;
@@ -31,16 +30,16 @@ public class BreedListActivity extends AppCompatActivity implements OnBreedsClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_breed_list);
 
         mBreedsViewModel = new ViewModelProvider(this).get(BreedsViewModel.class);
         mRecyclerView = findViewById(R.id.recyclerViewBreedsList);
-        mNetworkChangeReceiver = NetworkChangeReceiver.getInstance();
+        mNetworkChangeReceiver = new NetworkChangeReceiver();
         textViewNoConnection = findViewById(R.id.textViewNoConnection);
 
         initRecyclerView();
         subscribeObservers();
-        testRetrofitRequest();
+        searchBreedsApi();
         initBroadcastReceiver();
     }
 
@@ -61,10 +60,8 @@ public class BreedListActivity extends AppCompatActivity implements OnBreedsClic
             @Override
             public void onChanged(List<BreedsResponseList> breeds) {
                 if(breeds != null) {
-                    for (BreedsResponseList breed : breeds) {
-                        Log.d(TAG, "onChanged: Name = " + breed.getName() + ", ID = " + breed.getId());
                         mAdapter.setBreedsList(breeds);
-                    }
+                        mAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -77,6 +74,8 @@ public class BreedListActivity extends AppCompatActivity implements OnBreedsClic
                         textViewNoConnection.setVisibility(View.VISIBLE);
                     }
                     else if (s.equals("CONNECTED")) {
+                        searchBreedsApi();
+
                         mRecyclerView.setVisibility(View.VISIBLE);
                         textViewNoConnection.setVisibility(View.GONE);
                     }
@@ -85,14 +84,24 @@ public class BreedListActivity extends AppCompatActivity implements OnBreedsClic
         });
     }
 
-    private void testRetrofitRequest() {
+    private void searchBreedsApi() {
         mBreedsViewModel.searchBreedsApi();
     }
 
     @Override
     public void onBreedsClick(int position) {
         Intent intent = new Intent(this, BreedDetailsActivity.class);
-        intent.putExtra("breedID", mBreedsViewModel.getBreedsList().get(position).getId());
-        startActivity(intent);
+        searchBreedsApi();
+
+        if ((mBreedsViewModel.getBreedsList() != null) && !mBreedsViewModel.getBreedsList().isEmpty()) {
+            intent.putExtra("breedID", mBreedsViewModel.getBreedsList().get(position).getId());
+            startActivity(intent);
+        } else Toast.makeText(this, "Ошибка загрузки", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mNetworkChangeReceiver);
     }
 }

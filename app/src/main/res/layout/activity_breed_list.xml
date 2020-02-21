@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BreedListActivity"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerViewBreedsList"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textViewNoConnection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:gravity="center"
+        android:text="@string/text_no_connection"
+        android:textColor="@android:color/black"
+        android:drawableBottom="@drawable/ic_cat_foot_icon"
+        android:textSize="26sp"
+        android:visibility="visible" />
+
+</LinearLayout>

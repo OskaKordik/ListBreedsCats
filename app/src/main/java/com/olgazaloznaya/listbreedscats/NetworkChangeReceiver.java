@@ -10,10 +10,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
-    private static NetworkChangeReceiver networkChangeReceiver;
     private MutableLiveData<String> status;
 
-    private NetworkChangeReceiver() {
+    public NetworkChangeReceiver() {
         status = new MutableLiveData<>();
     }
 
@@ -21,17 +20,12 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         return status;
     }
 
-    public static NetworkChangeReceiver getInstance() {
-        if(networkChangeReceiver == null) networkChangeReceiver = new NetworkChangeReceiver();
-        return networkChangeReceiver;
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         status.postValue(status(context));
     }
 
-    public String status(Context context) {
+    private String status(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
